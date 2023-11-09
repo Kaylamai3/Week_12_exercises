@@ -15,6 +15,14 @@ library(broom)
 library(kableExtra)
 
 drto_psu_density <- read_csv("data/drto_psu_denisty.csv")
+str(drto_psu_density)
+
+prot_significant <- drto_psu_density %>%
+  group_by(SPECIES_CD) %>%
+  nest() %>% #this makes a new data frame or table of selecetd data 
+  mutate(exp_test = map(.x=data, ~kruskal.test(density~PROT, data=.) %>%
+                        tidy())) %>%
+  unnest(exp_test) %>%
 ```
 
 
